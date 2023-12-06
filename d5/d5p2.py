@@ -1,3 +1,5 @@
+# NOTE, this doesn't work
+
 import sys
 
 input = ''
