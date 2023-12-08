@@ -19,15 +19,14 @@ def get_hand_type(hand):
             freq[c] = freq[c] + 1
     shand = sorted(freq.items(), key=lambda x:x[1], reverse=True)
     
-    # greedily assign the jokers to the highest
+    # greedily assign the jokers to the highest freq
     if 'J' in freq:
         num_jokers = freq['J']
         freq[shand[0][0]] = freq[shand[0][0]] + num_jokers
         freq['J'] = 0
         shand = sorted(freq.items(), key=lambda x:x[1], reverse=True)
 
-    
-    
+    # return the val using the joker replacement
     if shand[0][1] == 5:
         return 7
     elif shand[0][1] == 4:
