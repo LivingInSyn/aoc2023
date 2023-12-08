@@ -18,14 +18,22 @@ def get_hand_type(hand):
         else:
             freq[c] = freq[c] + 1
     shand = sorted(freq.items(), key=lambda x:x[1], reverse=True)
-    
+
     # greedily assign the jokers to the highest freq
     if 'J' in freq:
+        print(f'shand before: {shand}')
         num_jokers = freq['J']
-        freq[shand[0][0]] = freq[shand[0][0]] + num_jokers
-        freq['J'] = 0
+        if num_jokers == 5:
+            freq = {'A': 5}
+        elif shand[0][0] != 'J':
+            freq[shand[0][0]] = freq[shand[0][0]] + num_jokers
+            del freq['J']
+        else:
+            freq[shand[1][0]] = freq[shand[1][0]] + num_jokers
+            del freq['J']
         shand = sorted(freq.items(), key=lambda x:x[1], reverse=True)
-
+        print(f'shand after: {shand}')
+        a = 'foo'
     # return the val using the joker replacement
     if shand[0][1] == 5:
         return 7
