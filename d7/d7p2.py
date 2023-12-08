@@ -9,13 +9,6 @@ hands = {}
 for line in lines:
     hands[line.split(' ')[0]] = line.split(' ')[1]
 
-# just checking for dups
-# jh = list(hands.keys())
-# for i in range(0, len(jh)):
-#     for y in range(i+1, len(jh)):
-#         if jh[i] == jh[y]:
-#             print(f"DUP: {jh[i]}")
-
 
 def get_hand_type(hand):
     freq = {}
@@ -48,12 +41,7 @@ def get_hand_type(hand):
     elif shand[0][1] == 2 and shand[1][1] == 1:
         return 2
     return 1
-    
-t1 = get_hand_type('32T3K')
-t2 = get_hand_type('T55J5')
-t3 = get_hand_type('KK677')
-t4 = get_hand_type('KTJJT')
-t5 = get_hand_type('QQQJA')
+
 
 
 cdict = {
