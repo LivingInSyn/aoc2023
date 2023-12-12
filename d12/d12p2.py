@@ -1,17 +1,15 @@
 from typing import List
 import re
 import itertools
+from functools import cache
 
 input = ''
-with open('./d12/einput.txt', 'r') as f:
+with open('./d12/input.txt', 'r') as f:
     input = f.read()
 
 lines = [line.strip() for line in input.split('\n') if line]
 
-OP = '.'
-DAM = '#'
-UNK = '?'
-
+@cache
 def check_replacements(ts: str, values: List[int]):
     springs = [s for s in ts.split('.') if s]
     if len(springs) != len(values):
@@ -24,6 +22,7 @@ def check_replacements(ts: str, values: List[int]):
     return all_match
     a = 'foo'
 
+@cache
 def find_line_sol(springs: str, values: List[int]):
     unknowns = [m.start() for m in re.finditer('\?', springs)]
     possible_combinations = 0
@@ -53,23 +52,24 @@ def unfold(line, expansion = 5):
     new_values = new_values[:-1]
     return f'{new_springs} {new_values}'
 
-def temp_add_q(line):
-    springs,values = line.split(' ')
-    springs = springs + '?'
-    return f'{springs} {values}'
-
 
 sum = 0
 processed_lines = 0
 for line in lines:
-    line = unfold(line, 3)
-    #line = temp_add_q(line)
-    # print(line)
+    line2 = unfold(line, 2)
     springs, values = line.split(' ')
-    values = [int(i) for i in values.split(',')]
+    spring2, values2 = line2.split(' ')
+    values = tuple([int(i) for i in values.split(',')])
+    values2 = tuple([int(i) for i in values2.split(',')])
     c = find_line_sol(springs, values)
-    print(c)
-    sum = sum + c
+    c2 = find_line_sol(spring2, values2)
+    m = c2/c
+    # extrapolate
+    for _ in range(3):
+        c2 = c2 * m
+
+    # print(c)
+    sum = sum + c2
     processed_lines = processed_lines + 1
-    #print(processed_lines) 
+    print(processed_lines) 
 print(sum)
